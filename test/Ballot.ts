@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import  {Ballot}  from "../typechain-types";
+import  {MyERC20}  from "../typechain-types";
 
 const PROPOSALS = ["Proposal 1","Proposal 2","Proposal 3"]
 
