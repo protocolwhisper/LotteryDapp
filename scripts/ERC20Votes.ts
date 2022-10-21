@@ -3,6 +3,10 @@ import  * as dotenv from "dotenv"
 import {MyToken} from "../typechain-types"
 dotenv.config()
 
+const PROPOSALS = ["Proposal 1","Proposal 2","Proposal 3"]
+const bytesArray = PROPOSALS.map((prop) => ethers.utils.formatBytes32String(prop))
+console.log(bytesArray)
+
 const TOKEN_MINT = ethers.utils.parseEther("1")
 async function main () {
     const [deployer , acc1 , acc2] = await ethers.getSigners()
