@@ -108,14 +108,14 @@ function menuOptions(rl: readline.Interface) {
           break;
         case 6:
           rl.question("What account (index) to use?\n", async (index) => {
-            const prize = await displayPrize(index);
+            const prize = await contract.connect(index).prize(index)
             if (Number(prize) > 0) {
               rl.question(
                 "Do you want to claim your prize? [Y/N]\n",
                 async (answer) => {
                   if (answer.toLowerCase() === "y") {
                     try {
-                      await claimPrize(index, prize);
+                      await claimPrize(index, prize.toString());
                     } catch (error) {
                       console.log("error\n");
                       console.log({ error });
@@ -147,7 +147,7 @@ function menuOptions(rl: readline.Interface) {
             await displayTokenBalance(index);
             rl.question("Burn how many tokens?\n", async (amount) => {
               try {
-                await burnTokens(index, amount);
+                await burnTokens(index );//, amount);
               } catch (error) {
                 console.log("error\n");
                 console.log({ error });
@@ -202,37 +202,54 @@ async function buyTokens(index: string, amount: string) {
 
 async function displayTokenBalance(index: string) {
   // TODO
-  const tokenBalance = token.
+  
 
 }
 
 async function bet(index: string, amount: string) {
+  const allowtx = await token.connect(accounts[Number(index)]).approve(contract.address , ethers.constants.MaxUint256)
   // TODO
+  const tx = await contract.connect(accounts[Number(index)]).betMany(amount)
+  const receipt = await tx.wait()
+  console.log(`Bets placed ${receipt.transactionHash}`)
+
 }
 
 async function closeLottery() {
   // TODO
+  const closeTx = await contract.connect(accounts[0]).closeLottery()
+  const receipt = closeTx.wait()
+  console.log(`The lotterry is closed with this Tx hash ${(await receipt).transactionHash}`)
 }
 
 async function displayPrize(index: string) {
   // TODO
-  return "TODO";
+  const prizeTx = await contract.connect(accounts[Number(index)]).prizePool()
+  console.log(`The currrent pool price is ${ethers.utils.formatEther(prizeTx)}`)
+
 }
 
 async function claimPrize(index: string, amount: string) {
+  const prizeTx = await contract.connect(accounts[Number(index)]).prizeWithdraw(Number(amount))
+  const prizeReceipt = prizeTx.wait()
+  console.log(`Prize of ${Number(amount)} was claimed to the address ${accounts[Number(index)].address}.`)
   // TODO
 }
 
 async function displayOwnerPool() {
-  // TODO
+  const ownertx = await contract.connect(accounts[0]).ownerPool()
+  console.log(`The owners pool have this ${ethers.utils.formatEther(ownertx)}`)
 }
 
 async function withdrawTokens(amount: string) {
-  // TODO
+  const withdrawtx = await contract.connect(accounts[0]).returnTokens(Number(amount))
+  // May we estimates gas fees here 
+  console.log(`You burn ERC20 ${Number(amount)}tokens and recieve this ETH ${Number(amount)}`)
 }
 
-async function burnTokens(index: string, amount: string) {
-  // TODO
+async function burnTokens(amount: string) {
+  withdrawTokens(amount)
+  // We need to implement metamask to it so it can make more sense
 }
 
 main().catch((error) => {
