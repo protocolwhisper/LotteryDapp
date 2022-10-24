@@ -29,6 +29,7 @@
     "@nestjs/cli": "^9.1.4",
     "@nestjs/schematics": "^9.0.3",
     "dotenv": "^16.0.3",
+    "fs": "^0.0.1-security",
     "hardhat-typechain": "^0.3.5"
   }
 }

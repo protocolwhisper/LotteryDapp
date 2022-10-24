@@ -3,9 +3,9 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import Lottery from "../../contracts/Lottery.json"
 import LotteryToken from "../../contracts/LotteryToken.json"
 const ethers = require('ethers');
-const provider = new ethers.providers.AlchemyProvider('goerli', process.env.ALCHEMY_API_KEY);
-const privateKey: string = process.env.TOKEN_EMITTER_PRIVATE_KEY as string;
-const tokenContractAddress: string = process.env.LOTTERY_TOKEN as string;
+const provider = new ethers.providers.AlchemyProvider('goerli', process.env.NEXT_PUBLIC_ALCHEMY_API_KEY);
+const privateKey: string = process.env.NEXT_PUBLIC_TOKEN_EMITTER_PRIVATE_KEY as string;
+const tokenContractAddress: string = process.env.NEXT_PUBLIC_LOTTERY_TOKEN as string;
 
 async function mintTokens(userWallet: string){
   const wallet = await new ethers.Wallet( privateKey, provider);

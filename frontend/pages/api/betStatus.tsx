@@ -3,9 +3,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import Lottery from "../../contracts/Lottery.json"
 import LotteryToken from "../../contracts/LotteryToken.json"
 const ethers = require('ethers');
-const provider = new ethers.providers.AlchemyProvider('goerli', process.env.ALCHEMY_API_KEY);
-const lotteryTokenAddress: string = process.env.LOTTERY_TOKEN as string;
-const lotteryAddress: string = process.env.LOTTERY_CONTRACT as string;
+const provider = new ethers.providers.AlchemyProvider('goerli', process.env.NEXT_PUBLIC_ALCHEMY_API_KEY);
+const lotteryAddress: string = process.env.NEXT_PUBLIC_LOTTERY_CONTRACT as string;
 
 async function isBetOpen(){
     
@@ -30,8 +29,10 @@ export default async function handler(
       try{
         
         let response = await isBetOpen();
+        console.log({response})
        
-        res.send( response )
+        console.log(3)
+        res.status(200).send( response )
       }catch(e){
         res.status(400).json({ response: 'Method not allowed ' + e })
       }
