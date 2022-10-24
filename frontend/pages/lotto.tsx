@@ -1,23 +1,44 @@
 import { useWeb3React } from "@web3-react/core";
 import Head from "next/head";
-import TokenBalance from "../components/TokenBalance";
 import NavBar from "../components/Menu";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SubNav from "../components/SubNav";
 import Lottery from "../contracts/Lottery.json"
 
-const LOTTERY_TOKEN_ADDRESS = process.env.LOTTERY_TOKEN;
-const privateKey: string = process.env.TOKEN_EMITTER_PRIVATE_KEY as string;
 
 const ethers = require('ethers');
-const provider = new ethers.providers.AlchemyProvider('goerli', process.env.ALCHEMY_API_KEY);
-const wallet = new ethers.Wallet( privateKey, provider);
-const signer = wallet.connect(provider);
+const provider = new ethers.providers.AlchemyProvider('goerli', process.env.NEXT_PUBLIC_ALCHEMY_API_KEY);
+const privateKey = process.env.NEXT_PUBLIC_PRI_KEY;
 
-const lotteryAddress: string = process.env.LOTTERY_CONTRACT as string;
-console.log(lotteryAddress)
-const lotteryContract = new ethers.Contract(lotteryAddress, Lottery, signer);
+const lotteryAddress: string = process.env.NEXT_PUBLIC_LOTTERY_CONTRACT as string;
 
+const singleBet = async () => {
+
+  const privateKey = process.env.NEXT_PUBLIC_PRI_KEY;
+ 
+  const wallet = await new ethers.Wallet( process.env.NEXT_PUBLIC_PRI_KEY, provider);
+  const signer = wallet.connect(provider);
+  const lotteryContract = new ethers.Contract(process.env.NEXT_PUBLIC_LOTTERY_CONTRACT, Lottery, signer);
+  const tx = await lotteryContract.bet({gasLimit: 500000})
+  console.log({tx})
+
+  const receipt = tx.wait();
+  console.log({receipt})
+} 
+
+const multipleBets = async (amount) => {
+
+  const privateKey = process.env.NEXT_PUBLIC_PRI_KEY;
+ 
+  const wallet = await new ethers.Wallet( process.env.NEXT_PUBLIC_PRI_KEY, provider);
+  const signer = wallet.connect(provider);
+  const lotteryContract = new ethers.Contract(process.env.NEXT_PUBLIC_LOTTERY_CONTRACT, Lottery, signer);
+  const tx = await lotteryContract.betMany(parseInt(amount), {gasLimit: 700000})
+  console.log({tx})
+
+  const receipt = tx.wait();
+  console.log({receipt})
+} 
 
   
 
@@ -46,15 +67,7 @@ function Home() {
     
   }
 
-  const singleBet = async () => {
-    const tx = await lotteryContract.bet({
-      method: 'bet',
-      params: [{
-        from: account,
-        to: lotteryAddress
-    }]
-    })
-  } 
+  
 
   const purchaseTokens = async () => {
 
@@ -99,14 +112,14 @@ function Home() {
               <h5 className="text-black "> 
               Multiple bets: <br/>
               <div className="grid">
-              <form id='myForm' action='/api/request' method='post'>
+              <form id='myForm'  method='post' >
                 <div className="input-group mb-3">
                   <input type="text" className="form-control" placeholder='Amount of Bets' value={amount} onChange={event => setAmount(event.target.value)} name='amount' id='amount'/>
                   
                 </div>
               
               
-              <button className=' btn-lg justify-text-center ' type="submit" onClick={purchaseTokens}>Process bets</button>
+              <button className=' btn-lg justify-text-center ' type="button" onClick={function(){multipleBets(amount)}}>Process bets</button>
               </form>
           </div> 
               </h5>

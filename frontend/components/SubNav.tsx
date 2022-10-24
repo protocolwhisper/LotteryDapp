@@ -5,16 +5,20 @@ import useENSName from "../hooks/useENSName";
 import { shortenHex } from "../util";
 import lotteryImg from "../images/lottery.png"
 
+function hexToDec(hexString){
+  return parseInt(hexString, 16);
+}
 
 function SubNav() {
     const { account } = useWeb3React();
     const [isOpen, setIsOpen] = useState(false);
-    const [balance, setBalance] = useState('');
+    const [balance, setBalance]: any = useState('');
     const ENSName = useENSName(account);
   useEffect(() => {
     const fetchStatus = async () => {
       let response = await fetch("/api/betStatus");
-      
+      const data = await response.json();
+      console.log({data})
     if (response.ok){
         setIsOpen(response.body.locked)
     } else{
@@ -26,7 +30,7 @@ function SubNav() {
   useEffect(() => {
     
     const fetchBalance = async () => {
-      let response = await fetch("/api/balance", {
+      let response =  await fetch("/api/balance", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
@@ -34,14 +38,15 @@ function SubNav() {
         body: JSON.stringify({address: account})
       });
      
+      const data = await response.json();
       
-      console.log({response})
-    if (response){
-        console.log({response})
+      
+    if (response.status == 200){
         
+        setBalance(hexToDec(data.balance.hex))
     } else{
         
-      console.log("HTTP-Error: " + response.status);
+      console.log("HTTP-Error: " + response);
     }
     }
     fetchBalance()
@@ -70,7 +75,7 @@ function SubNav() {
         </section>
         { account && (
         <section><h4 className="text-dark">
-        {`${ENSName || `${shortenHex(account, 4)}`}'s $LTO Balance`}: {(balance.response ?? 0)}
+        {`${ENSName || `${shortenHex(account, 4)}`}'s $LTO Balance`}: {(balance ?? 0)}
         </h4></section> )
         }
         <section >

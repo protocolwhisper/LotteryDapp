@@ -5,7 +5,7 @@ import NavBar from "../components/Menu";
 import { useEffect, useState } from 'react';
 import SubNav from "../components/SubNav";
 
-const LOTTERY_TOKEN_ADDRESS = process.env.LOTTERY_TOKEN;
+const LOTTERY_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_LOTTERY_TOKEN;
 
 
 function Home() {
