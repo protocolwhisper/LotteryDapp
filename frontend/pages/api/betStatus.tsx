@@ -11,7 +11,7 @@ async function isBetOpen(){
   const lotteryContract = new ethers.Contract(lotteryAddress, Lottery, provider)
   
   const betsStatus = await lotteryContract.betsOpen();
-  console.log({betsStatus})
+ 
   return betsStatus;
   
 
@@ -29,9 +29,7 @@ export default async function handler(
       try{
         
         let response = await isBetOpen();
-        console.log({response})
-       
-        console.log(3)
+
         res.status(200).send( response )
       }catch(e){
         res.status(400).json({ response: 'Method not allowed ' + e })

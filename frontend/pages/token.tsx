@@ -1,28 +1,24 @@
-import { useWeb3React } from "@web3-react/core";
+import Link from "next/link";
 import Head from "next/head";
-import TokenBalance from "../components/TokenBalance";
 import NavBar from "../components/Menu";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SubNav from "../components/SubNav";
-
-const LOTTERY_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_LOTTERY_TOKEN;
-
-
-  
-
+import { PurchaseTokens } from "../components/transactions/PurchaseTokens";
+import GetBalance from "../hooks/getBalance";
 
 
 
 
 
 function Home() {
-  const { account, library } = useWeb3React();
+ 
 
   const [amount, setAmount] = useState('');
  
 
-  const isConnected = typeof account === "string" && !!library;
+  //const isConnected = typeof account === "string" && !!library;
 
+  /*
   const requestTokens = async () => {
   
     let response = await fetch("/api/requestTokens", {
@@ -30,11 +26,11 @@ function Home() {
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       },
-      body: JSON.stringify({address: account})
+      //body: JSON.stringify({address: account})
     })
     
   }
-
+*/
   const purchaseTokens = async () => {
 
   }
@@ -51,13 +47,13 @@ function Home() {
       
       </header>
       
-      <main>
+      <main className="pt-4 ">
       <SubNav/>
-        
+      
        
         
 
-        {isConnected && (
+        {/*isConnected && (
           <div className="text-white  container" >
             
             <div className="row mb-3 mt-5 px-5">
@@ -109,16 +105,18 @@ function Home() {
             
           </div>
           
-        )}
+        )*/}
 
-        {!isConnected && (
+        {/*!isConnected && (
           <section className="p-5">
             <h5> Please connect to get started with EnLotto</h5>
           </section>
-        )}
-
+        )*/}
+        <PurchaseTokens/>
         <section className="pt-5 ">
-        <button><a href="/"> Return home</a></button>
+          
+        <button className="m-2 btn btn-dark"><Link href="/" className="text-white fw-bold"> Return home</Link></button>
+
         </section>
         
    

@@ -1,10 +1,14 @@
-import { useWeb3React } from "@web3-react/core";
+import Link from "next/link";
 import Head from "next/head";
 import NavBar from "../components/Menu";
 import { useState } from 'react';
 import SubNav from "../components/SubNav";
 import Lottery from "../contracts/Lottery.json"
-
+import { SendTransaction } from "../components/transactions/SendTransaction";
+import { SingleBet } from "../components/transactions/SingleBet";
+import { SingleAllowance } from "../components/transactions/SingleAllowance";
+import { MultiBets } from "../components/transactions/MultiBets";
+import { MultiAllowances } from "../components/transactions/MultiAllowances";
 
 const ethers = require('ethers');
 const provider = new ethers.providers.AlchemyProvider('goerli', process.env.NEXT_PUBLIC_ALCHEMY_API_KEY);
@@ -26,7 +30,7 @@ const singleBet = async () => {
   console.log({receipt})
 } 
 
-const multipleBets = async (amount) => {
+const multipleBets = async (amount: string) => {
 
   const privateKey = process.env.NEXT_PUBLIC_PRI_KEY;
  
@@ -48,12 +52,12 @@ const multipleBets = async (amount) => {
 
 
 function Home() {
-  const { account, library } = useWeb3React();
+  //const { account, library } = useWeb3React();
  
   const [amount, setAmount] = useState('');
  
 
-  const isConnected = typeof account === "string" && !!library;
+  //const isConnected = typeof account === "string" && !!library;
 
   const requestTokens = async () => {
   
@@ -62,7 +66,7 @@ function Home() {
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       },
-      body: JSON.stringify({address: account})
+      //body: JSON.stringify({address: account})
     })
     
   }
@@ -87,11 +91,19 @@ function Home() {
       
       <main>
       <SubNav/>
-        
+        <div >
+          <div className="shadow-lg w-25 bg-cyan bg-gradient rounded container-sm">
+            <SingleAllowance/>
+            <SingleBet/>
+          </div>
+          
+         
+          
+        </div>
        
         
 
-        {isConnected && (
+        {/*isConnected && (
           <div className="text-white container" >
             
             <div className="row mb-3 mt-5 px-5">
@@ -143,19 +155,18 @@ function Home() {
             
           </div>
           
-        )}
+        )*/}
 
-        {!isConnected && (
+        {/*!isConnected && (
           <section className="p-5">
             <h5> Please connect to get started with EnLotto</h5>
           </section>
-        )}
+        )*/}
 
         <section className="pt-5 ">
-        <button><a href="/"> Return home</a></button>
+        <button className="m-2 btn btn-dark"><Link href="/" className="text-white fw-bold"> Return home</Link></button>
         </section>
-        
-   
+     
       </main>
 
       <style jsx>{`
