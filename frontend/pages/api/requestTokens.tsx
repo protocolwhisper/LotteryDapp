@@ -31,8 +31,8 @@ export default function handler(
     res: NextApiResponse<Data>){
       const userWallet = req.body.address;
       
-      
-    if (req.method === 'POST') {
+    //literally blocking this request.
+    if (req.method === 'POST123123') {
       try{
         mintTokens(userWallet)
         res.status(200).json({ response: 'Tokens succesfully emmited for ' + req.body.address + ". You can now take part at EnLotto." })

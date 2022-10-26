@@ -1,21 +1,13 @@
-import { useWeb3React } from "@web3-react/core";
-import Head from "next/head";
 import Link from "next/link";
-import Account from "../components/Account";
-import ETHBalance from "../components/ETHBalance";
-import TokenBalance from "../components/TokenBalance";
-import useEagerConnect from "../hooks/useEagerConnect";
+import Head from "next/head";
 import NavBar from "../components/Menu";
 import Image from 'next/image';
 import lotteryImg from "../images/lottery.png"
 
 function Home() {
-  const { account, library } = useWeb3React();
 
-  const triedToEagerConnect = useEagerConnect();
- 
 
-  const isConnected = typeof account === "string" && !!library;
+
 
   return (
     <div>
@@ -29,16 +21,13 @@ function Home() {
       </header>
      
         <nav>
-          <Link href="/">
-            <a>EnLotto</a>
-          </Link>
+          
           
 
-          <Account triedToEagerConnect={triedToEagerConnect} />
         </nav>
       
 
-      <main>
+      <main >
         
         <h1 className="pt-5 mt-5">
           <div className="mb-2">EnLotto</div> <br></br><div><Image 
@@ -58,16 +47,11 @@ function Home() {
         </h2>
 
         <section className="mb-4">
-            <button className="m-2"><a href="/token">Get tokens</a></button>
-            <button className="m-2"><a href="/lotto">Visit the Lottery</a></button>
+            <button className="m-2 btn btn-dark fw-bold"><Link href="/token" className="text-white">Get tokens</Link></button>
+            <button className="m-2 btn btn-dark fw-bold"><Link href="/lotto" className="text-white">Visit the Lottery</Link></button>
         </section>
 
-        {isConnected && (
-          <section >
-            <ETHBalance />
-
-          </section>
-        )}
+        
         
    
       </main>

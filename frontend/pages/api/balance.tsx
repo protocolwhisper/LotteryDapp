@@ -7,7 +7,7 @@ const provider = new ethers.providers.AlchemyProvider('goerli', process.env.NEXT
 const tokenContractAddress: string = process.env.NEXT_PUBLIC_LOTTERY_TOKEN as string;
 
 
-async function getBalance(walletAddress){
+async function getBalance(walletAddress: any){
 
   const tokenContract = new ethers.Contract(tokenContractAddress, LotteryToken, provider)
 

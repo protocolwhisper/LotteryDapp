@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react';
-import { useWeb3React } from "@web3-react/core";
-import Image from 'next/image';
-import useENSName from "../hooks/useENSName";
-import { shortenHex } from "../util";
-import lotteryImg from "../images/lottery.png"
 
-function hexToDec(hexString){
+import Image from 'next/image';
+
+import lotteryImg from "../images/lottery.png"
+import GetBalance from '../hooks/getBalance';
+
+function hexToDec(hexString: string){
   return parseInt(hexString, 16);
 }
 
 function SubNav() {
-    const { account } = useWeb3React();
+    
     const [isOpen, setIsOpen] = useState(false);
-    const [balance, setBalance]: any = useState('');
-    const ENSName = useENSName(account);
+
+    
   useEffect(() => {
     const fetchStatus = async () => {
       let response = await fetch("/api/betStatus");
       const data = await response.json();
-      console.log({data})
-    if (response.ok){
+     
+    if (response.ok && response.body){
         setIsOpen(response.body.locked)
     } else{
       console.log("HTTP-Error: " + response.status);
@@ -27,30 +27,7 @@ function SubNav() {
     }
     fetchStatus()
   },[])
-  useEffect(() => {
-    
-    const fetchBalance = async () => {
-      let response =  await fetch("/api/balance", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify({address: account})
-      });
-     
-      const data = await response.json();
-      
-      
-    if (response.status == 200){
-        
-        setBalance(hexToDec(data.balance.hex))
-    } else{
-        
-      console.log("HTTP-Error: " + response);
-    }
-    }
-    fetchBalance()
-  },[account])
+  
 
 
   return (
@@ -58,26 +35,26 @@ function SubNav() {
         <section className="p-5 mt-5">
         {
           isOpen && (
-            <h4 className="text-success">
-            EnLotto is currently open for bets
+            <h4 >
+            EnLotto is currently <b className="text-success">open</b> for bets
             </h4>
           )
 
         }
         {
           !isOpen && (
-            <h4 className="text-danger">
-            EnLotto is currently closed for bets
+            <h4>
+            EnLotto is currently <b className="text-danger">closed </b> for bets
             </h4>
           )
 
         }
         </section>
-        { account && (
+        { /*account && (
         <section><h4 className="text-dark">
         {`${ENSName || `${shortenHex(account, 4)}`}'s $LTO Balance`}: {(balance ?? 0)}
         </h4></section> )
-        }
+        */}
         <section >
           <Image 
           
@@ -88,6 +65,7 @@ function SubNav() {
         height={50}
         ></Image>
         </section>
+        <GetBalance/>
     </div> )}
 
 export default SubNav;
