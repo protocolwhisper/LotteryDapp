@@ -12,42 +12,12 @@ import { MultiAllowances } from "../components/transactions/MultiAllowances";
 
 const ethers = require('ethers');
 const provider = new ethers.providers.AlchemyProvider('goerli', process.env.NEXT_PUBLIC_ALCHEMY_API_KEY);
-const privateKey = process.env.NEXT_PUBLIC_PRI_KEY;
+
 
 const lotteryAddress: string = process.env.NEXT_PUBLIC_LOTTERY_CONTRACT as string;
 
-const singleBet = async () => {
-
-  const privateKey = process.env.NEXT_PUBLIC_PRI_KEY;
- 
-  const wallet = await new ethers.Wallet( process.env.NEXT_PUBLIC_PRI_KEY, provider);
-  const signer = wallet.connect(provider);
-  const lotteryContract = new ethers.Contract(process.env.NEXT_PUBLIC_LOTTERY_CONTRACT, Lottery, signer);
-  const tx = await lotteryContract.bet({gasLimit: 500000})
-  console.log({tx})
-
-  const receipt = tx.wait();
-  console.log({receipt})
-} 
-
-const multipleBets = async (amount: string) => {
-
-  const privateKey = process.env.NEXT_PUBLIC_PRI_KEY;
- 
-  const wallet = await new ethers.Wallet( process.env.NEXT_PUBLIC_PRI_KEY, provider);
-  const signer = wallet.connect(provider);
-  const lotteryContract = new ethers.Contract(process.env.NEXT_PUBLIC_LOTTERY_CONTRACT, Lottery, signer);
-  const tx = await lotteryContract.betMany(parseInt(amount), {gasLimit: 700000})
-  console.log({tx})
-
-  const receipt = tx.wait();
-  console.log({receipt})
-} 
 
   
-
-
-
 
 
 
