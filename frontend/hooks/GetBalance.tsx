@@ -3,7 +3,7 @@ import {
     useBalance 
 } from 'wagmi'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // this hook gives hydration errors to the whole page
 
@@ -37,12 +37,18 @@ function GetBalance() {
      
 
      
-    return(
-        <div>
+
+      const [mounted, setMounted] = useState(false);
+ 
+
+      useEffect(() => setMounted(true), []);
+      if (!mounted) return null;
+      
+      return( <div>
         { address && (
             <h4 className="text-dark">
-                {`${shortenHex(address)}'s`} 
-                {`$LTO Balance: ${balance}`}
+                {`${shortenHex(address)}'s $LTO Balance: ${balance}`} 
+                
             
             </h4> )
         }

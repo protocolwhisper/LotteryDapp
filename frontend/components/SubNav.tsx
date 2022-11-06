@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import lotteryImg from "../images/lottery.png"
-import GetBalance from '../hooks/getBalance';
+import GetBalance from '../hooks/GetBalance';
 
 function hexToDec(hexString: string){
   return parseInt(hexString, 16);

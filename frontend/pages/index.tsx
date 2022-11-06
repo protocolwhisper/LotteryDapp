@@ -45,6 +45,7 @@ function Home() {
         A Next.js web3 application <br/>
           Made by ProtocolWhisper and JoVi
         </h2>
+        <h4>Make sure to be connected to Goerli.</h4>
 
         <section className="mb-4">
             <button className="m-2 btn btn-dark fw-bold"><Link href="/token" className="text-white">Get tokens</Link></button>
