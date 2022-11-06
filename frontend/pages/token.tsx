@@ -4,7 +4,10 @@ import NavBar from "../components/Menu";
 import { useState } from 'react';
 import SubNav from "../components/SubNav";
 import { PurchaseTokens } from "../components/transactions/PurchaseTokens";
-import GetBalance from "../hooks/getBalance";
+import type { NextPage } from 'next'
+import dynamic from "next/dynamic";
+const  GetBalance = dynamic(() => import('../hooks/GetBalance'), { ssr: false })
+
 
 
 
