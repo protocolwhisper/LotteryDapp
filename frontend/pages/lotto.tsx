@@ -9,6 +9,8 @@ import { SingleBet } from "../components/transactions/SingleBet";
 import { SingleAllowance } from "../components/transactions/SingleAllowance";
 import { MultiBets } from "../components/transactions/MultiBets";
 import { MultiAllowances } from "../components/transactions/MultiAllowances";
+import dynamic from "next/dynamic";
+const  GetBalance = dynamic(() => import('../hooks/GetBalance'), { ssr: false })
 
 const ethers = require('ethers');
 const provider = new ethers.providers.AlchemyProvider('goerli', process.env.NEXT_PUBLIC_ALCHEMY_API_KEY);
@@ -61,7 +63,7 @@ function Home() {
       
       <main>
       <SubNav/>
-        <div >
+       
           <div className="shadow-lg w-25 bg-cyan bg-gradient rounded container-sm">
             <SingleAllowance/>
             <SingleBet/>
@@ -69,69 +71,9 @@ function Home() {
           
          
           
-        </div>
+
        
-        
 
-        {/*isConnected && (
-          <div className="text-white container" >
-            
-            <div className="row mb-3 mt-5 px-5">
-            
-            
-            <section className="col form-control card bg-light border-success  ">
-              <h5 className="text-dark p-3 mb-1"> 
-              <div className="mb-1">Single bet: </div><br></br>
-              
-              <button  onClick={singleBet}>
-              Process bet
-              </button>
-              
-              </h5>
-              
-            </section>
-            <section className="d-inline-block col card bg-light border-success form-control">
-              <h5 className="text-black "> 
-              Multiple bets: <br/>
-              <div className="grid">
-              <form id='myForm'  method='post' >
-                <div className="input-group mb-3">
-                  <input type="text" className="form-control" placeholder='Amount of Bets' value={amount} onChange={event => setAmount(event.target.value)} name='amount' id='amount'/>
-                  
-                </div>
-              
-              
-              <button className=' btn-lg justify-text-center ' type="button" onClick={function(){multipleBets(amount)}}>Process bets</button>
-              </form>
-          </div> 
-              </h5>
-              
-            </section>
-            </div>
-            <div className="row mb-3">
-            
-            <section className="col  ">
-              <h5 className="text-dark p-3 mb-1"> 
-              <div className="mb-2">Prize withdrawal: </div>
-              
-              <button  onClick={requestTokens}>
-              Request tokens won
-              </button>
-              
-              </h5>
-              
-            </section>
-            </div>
-            
-          </div>
-          
-        )*/}
-
-        {/*!isConnected && (
-          <section className="p-5">
-            <h5> Please connect to get started with EnLotto</h5>
-          </section>
-        )*/}
 
         <section className="pt-5 ">
         <button className="m-2 btn btn-dark"><Link href="/" className="text-white fw-bold"> Return home</Link></button>
